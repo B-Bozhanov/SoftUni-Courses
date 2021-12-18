@@ -45,8 +45,8 @@ namespace _10._SoftUni_Course_Planning
                 else if (action == "Remove")
                 {
                     bool IsThereLesson = Check(lessons, lessonTitle);
-                    bool IsThereLessonExercises = Check(lessons, exerciseAction);        // Create Method to check is there Lesson Exercise
-                    if (IsThereLesson && IsThereLessonExercises)                        // If both are true, delete  and both.
+                    bool IsThereLessonExercises = Check(lessons, exerciseAction);       
+                    if (IsThereLesson && IsThereLessonExercises)                        
                     {
                         lessons.Remove(lessonTitle);
                         lessons.Remove(exerciseAction);
