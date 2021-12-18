@@ -23,7 +23,7 @@ namespace _10._SoftUni_Course_Planning
 
                 if (action == "Add")
                 {
-                    bool IsThereLesson = Check(lessons, lessonTitle);
+                    bool IsThereLesson = Check(lessons, lessonTitle);        // Create Method and check is already have the given lesson.
                     if (!IsThereLesson)
                     {
                         lessons.Add(lessonTitle);
