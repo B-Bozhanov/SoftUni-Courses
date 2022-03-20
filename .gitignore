@@ -1,10 +1,12 @@
-bin
+﻿bin
 obj
 .vs
-*.docx
-*.pdf
+.docx
+pdf
 
 /Programming Fundamentals with C#/Arrays - More Exercise/01. Encrypt, Sort and Print Array_Условия.docx
 Arrays - Lab.sln
 01. Encrypt, Sort and Print Array_Условия.docx
 Arrays - More Exercise.sln
+*.docx
+/Programming Fundamentals with C#/Arrays - More Exercise/*.sln
