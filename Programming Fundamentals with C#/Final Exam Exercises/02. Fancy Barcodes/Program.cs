@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Linq;
+using System.Text;
 
 namespace _02._Fancy_Barcodes
 {
@@ -8,43 +9,39 @@ namespace _02._Fancy_Barcodes
     {
         static void Main(string[] args)
         {
-            string pattern = @"@[#]+([A-Z][A-Za-z0-9]{4,}[A-Z])@[#]+";
+            string pattern = @"(@#+)([A-Z][A-Za-z0-9]{4,}[A-Z])(@#+)";
             int n = int.Parse(Console.ReadLine());
 
             for (int i = 0; i < n; i++)
             {
-                string input = Console.ReadLine();
-                
-                MatchCollection match = Regex.Matches(input, pattern);
-                string current = string.Empty;
-                string numbers = string.Empty;
-                int Flag = 0;
-                foreach (Match item in match)
-                {
-                    current = item.Groups[1].Value;
-                }
+                string currProducts = Console.ReadLine();
+                Match match = Regex.Match(currProducts, pattern);
 
-                for (int j = 0; j < current.Length; j++)
-                {
-                    if (current[j] >= 48 && current[j] <= 57)
-                    {
-                        numbers += (char)current[j];
-                        Flag = 1;
-                    }
-                }
-
-                if (match.Count == 0)
+                if (!match.Success)
                 {
                     Console.WriteLine("Invalid barcode");
                     continue;
                 }
-                if (Flag == 0)
+
+                StringBuilder groupOutput = new StringBuilder(); // 00 by default.
+                string currProduct = match.Groups[2].Value;
+                bool isDigit = false;
+
+                foreach (char product in currProduct)
                 {
-                    Console.WriteLine($"Product group: 00");
+                    if (Char.IsDigit(product))
+                    {
+                        groupOutput.Append(product);
+                        isDigit = true;
+                    }
+                }
+                if (!isDigit)
+                {
+                    Console.WriteLine($"Product group: {"00"}");
                 }
                 else
                 {
-                    Console.WriteLine($"Product group: {numbers}");
+                    Console.WriteLine($"Product group: {string.Join("", groupOutput)}");
                 }
             }
         }
