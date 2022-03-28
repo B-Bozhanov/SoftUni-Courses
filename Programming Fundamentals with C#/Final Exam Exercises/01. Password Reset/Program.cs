@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 
 namespace _01._Password_Reset
 {
@@ -7,57 +8,47 @@ namespace _01._Password_Reset
     {
         static void Main(string[] args)
         {
-            string input = Console.ReadLine();
-            string command = Console.ReadLine();
+            string password = Console.ReadLine();
 
+            string command = Console.ReadLine();
             while (command != "Done")
             {
-                string[] commandArgs = command.Split();
+            StringBuilder currPassword = new StringBuilder();
+
+                string[] commandArgs = command
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 string action = commandArgs[0];
 
                 if (action == "TakeOdd")
                 {
-                    string currPass = string.Empty;
-                    for (int i = 0; i < input.Length; i++)
+
+                    for (int i = 0; i < password.Length; i++)
                     {
                         if (i % 2 != 0)
                         {
-                            currPass += input[i];
+                            currPassword.Append(password[i]);
                         }
                     }
-                    input = currPass;
-                    Console.WriteLine(input);
+                    Console.WriteLine(currPassword);
+                    password = currPassword.ToString();
                 }
                 else if (action == "Cut")
                 {
                     int index = int.Parse(commandArgs[1]);
                     int length = int.Parse(commandArgs[2]);
-                    string currPass = string.Empty;
-                    for (int i = 0; i < input.Length; i++)
-                    {
-                        if (i == index)
-                        {
-                            i += length;
-                            if (i >= input.Length)
-                            {
-                                break;
-                            }
-                        }
-                        currPass += input[i];
-                    }
-                    input = currPass;
-                    Console.WriteLine(input);
+
+                    password = password.Remove(index, length);
+                    Console.WriteLine(password);
                 }
                 else if (action == "Substitute")
                 {
                     string substring = commandArgs[1];
-                    string substitute = commandArgs[2];
-                    string currPass = string.Empty;
-                    if (input.Contains(substring))
+                    string replaceSring = commandArgs[2];
+
+                    if (password.Contains(substring))
                     {
-                        currPass = input.Replace(substring, substitute);
-                        input = currPass;
-                        Console.WriteLine(input);
+                        password.Replace(substring, replaceSring);
+                        Console.WriteLine(password);
                     }
                     else
                     {
@@ -66,7 +57,7 @@ namespace _01._Password_Reset
                 }
                 command = Console.ReadLine();
             }
-            Console.WriteLine($"Your password is: {input}");
+            //Console.WriteLine($"Your password is: {currPassword}");
         }
     }
 }
