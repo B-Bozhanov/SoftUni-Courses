@@ -2,28 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace _03._P_rates
+namespace Pirates
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Dictionary<string, int[]> targetVillage = new Dictionary<string, int[]>();
-            string firstCommand = Console.ReadLine();
+            List<Town> towns = new List<Town>();
 
+            string firstCommand = Console.ReadLine();
             while (firstCommand != "Sail")
             {
                 string[] commandArgs = firstCommand.Split("||");
+
                 string town = commandArgs[0];
                 int population = int.Parse(commandArgs[1]);
                 int gold = int.Parse(commandArgs[2]);
-
-                if (!targetVillage.ContainsKey(town))
-                {
-                    targetVillage.Add(town, new int[2]);
-                }
-                targetVillage[town][0] += population;
-                targetVillage[town][1] += gold;
+                towns.Add(new Town(town, population, gold));
 
                 firstCommand = Console.ReadLine();
             }
@@ -32,52 +27,39 @@ namespace _03._P_rates
             while (secondCommand != "End")
             {
                 string[] commandArgs = secondCommand.Split("=>");
+
                 string action = commandArgs[0];
+                string town = commandArgs[1];
+                Town currTown = towns.SingleOrDefault(x => x.TownName == town);
+
                 if (action == "Plunder")
                 {
-                    string town = commandArgs[1];
                     int population = int.Parse(commandArgs[2]);
                     int gold = int.Parse(commandArgs[3]);
 
-                    targetVillage[town][0] -= population;
-                    targetVillage[town][1] -= gold;
-                    if (targetVillage[town][0] <= 0 || targetVillage[town][1] <= 0)
+                    if (currTown.Plunder(town, population, gold))
                     {
-                        Console.WriteLine($"{town} plundered! {gold} gold stolen, {population} citizens killed.");
-                        targetVillage.Remove(town);
-                        Console.WriteLine($"{town} has been wiped off the map!");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"{town} plundered! {gold} gold stolen, {population} citizens killed.");
+                        towns.Remove(currTown);
                     }
                 }
                 else if (action == "Prosper")
                 {
-                    string town = commandArgs[1];
                     int gold = int.Parse(commandArgs[2]);
-                    if (gold < 0)
-                    {
-                        Console.WriteLine($"Gold added cannot be a negative number!");
-                        secondCommand = Console.ReadLine();
-                        continue;
-                    }
-                    targetVillage[town][1] += gold;
-                    Console.WriteLine($"{gold} gold added to the city treasury. {town} now has {targetVillage[town][1]} gold.");
+                    currTown.Prosper(town, gold);
                 }
 
                 secondCommand = Console.ReadLine();
             }
-            Console.WriteLine($"Ahoy, Captain! There are {targetVillage.Count} wealthy settlements to go to:");
-            if (targetVillage.Count <= 0)
+            Console.WriteLine($"Ahoy, Captain! There are {towns.Count} wealthy settlements to go to:");
+            if (towns.Count <= 0)
             {
                 Console.WriteLine("Ahoy, Captain! All targets have been plundered and destroyed!");
             }
             else
             {
-                foreach (var item in targetVillage.OrderByDescending(x => x.Value[1]).ThenBy(x => x.Key))
+                foreach (var item in towns.OrderByDescending(x => x.Gold).ThenBy(x => x.TownName))
                 {
-                    Console.WriteLine($"{item.Key} -> Population: {item.Value[0]} citizens, Gold: {item.Value[1]} kg");
+                    Console.WriteLine($"{item.TownName} -> Population: {item.Population} citizens, Gold: {item.Gold} kg");
                 }
             }
         }
