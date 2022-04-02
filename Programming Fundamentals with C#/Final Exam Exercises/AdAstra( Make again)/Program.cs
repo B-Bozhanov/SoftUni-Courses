@@ -30,6 +30,7 @@ namespace AdAstra__Make_again_
                 Console.Write($"Item: {match.Groups["item"].Value}, Best before: {match.Groups["date"].Value}, Nutrition: {match.Groups["calories"].Value}");
                 Console.WriteLine();
             }
+            
         }
     }
 }
