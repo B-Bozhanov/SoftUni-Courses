@@ -10,17 +10,20 @@ namespace _1._Reverse_Strings
         {
             string input = Console.ReadLine();
 
-            Stack<char> stack = new Stack<char>();
+            Stack<char> stack = new Stack<char>(input);
 
-            foreach (var item in input)
+            //foreach (var item in input)
+            //{
+            //    stack.Push(item);
+            //}
+            foreach (var item in stack)
             {
-                stack.Push(item);
+                Console.Write(item);
             }
-
-            while (stack.Any())
-            {
-                Console.Write(stack.Pop());
-            }
+            //while (stack.Any())
+            //{
+            //    Console.Write(stack.Pop());
+            //}
         }
     }
 }
