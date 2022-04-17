@@ -2,11 +2,8 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-<<<<<<< HEAD
     <TargetFramework>netcoreapp3.1</TargetFramework>
-=======
     <TargetFramework>net5.0</TargetFramework>
->>>>>>> 127ee2508096684beced58ffbbca6630d5b46910
     <RootNamespace>_1._Reverse_Strings</RootNamespace>
   </PropertyGroup>
 
