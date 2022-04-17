@@ -8,58 +8,36 @@ namespace T07.TruckTour
     {
         static void Main(string[] args)
         {
-            int n = int.Parse(Console.ReadLine());
-            int startIndex = -1;
-            Queue<int> pumps = new Queue<int>();
+            Queue<int[]> pumps = new Queue<int[]>();
+            int numOfPumps = int.Parse(Console.ReadLine());
 
-            for (int i = 0; i < n; i++)
+            // Read the input!
+            for (int pump = 0; pump < numOfPumps; pump++)
             {
                 int[] input = Console.ReadLine()
                     .Split()
-                    .Select(int.Parse)
+                    .Select(x => int.Parse(x))
                     .ToArray();
-                pumps.Enqueue(input[0]);
-                pumps.Enqueue(input[1]);
-            }
 
-            Queue<int> currentPumps = new Queue<int>(pumps);
-            int leftFuel = 0;
+                pumps.Enqueue(input);
+            }
+            int tank = 0;
             while (true)
             {
-                int fuel = currentPumps.Dequeue();
-                int distance = currentPumps.Dequeue();
-                leftFuel += fuel;
+                int[] currentPump = pumps.Peek();
+                int fuel = currentPump[0];
+                int distance = currentPump[1];
+                tank += fuel;
 
-                if (leftFuel < distance)
+                if (tank < distance)
                 {
-                    currentPumps.Enqueue(fuel);
-                    currentPumps.Enqueue(distance);
-                    startIndex++;
+                    pumps.Enqueue(pumps.Dequeue());
+                   // tank -= fuel;
                     continue;
                 }
 
-                while (true)
-                {
-                    leftFuel -= distance;
-                    int currFuel = currentPumps.Dequeue();
-                    int currDistance = currentPumps.Dequeue();
-
-                    if (leftFuel < distance)
-                    {
-                        currentPumps.Enqueue(currFuel);
-                        currentPumps.Enqueue(currDistance);
-                        startIndex++;
-                        break;
-                    }
-                    else if (true)
-                    {
-
-                    }
-                }
             }
         }
     }
 }
-// 1 5
-// 10 4
-// 3 4
+
