@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>_07._Truck_Tour</RootNamespace>
+    <RootNamespace>_T07._Truck_Tour</RootNamespace>
   </PropertyGroup>
 
 </Project>
