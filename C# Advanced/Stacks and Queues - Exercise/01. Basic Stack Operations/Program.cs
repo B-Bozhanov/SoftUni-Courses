@@ -9,44 +9,39 @@ namespace _01._Basic_Stack_Operations
     {
         static void Main(string[] args)
         {
-            int[] commands = Console.ReadLine()
-                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                .Select(int.Parse)
-                .ToArray();
-
-            int push = commands[0];
-            int pop = commands[1];
-            int seekNum = commands[2];
-
-            Stack<int> numbers = new Stack<int>();
-            int[] inputNumbers = Console.ReadLine()
+           int[] input = Console.ReadLine()
                 .Split(' ', StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => int.Parse(x))
                 .ToArray();
+            int[] numbers = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => int.Parse(x))
+                .ToArray();
+            int elementsToPush = input[0];
+            int elementsToPop = input[1];
+            int searchedNum = input[2];
 
-            for (int i = 0; i < push; i++)
+            Stack<int> stack = new Stack<int>();
+
+            for (int i = 0; i < elementsToPush; i++)
             {
-                numbers.Push(inputNumbers[i]);
+                stack.Push(numbers[i]);
             }
-
-            for (int i = 0; i < pop; i++)
+            for (int i = 0; i < elementsToPop; i++)
             {
-                numbers.Pop();
+                stack.Pop();
+                if (stack.Count == 0)
+                {
+                    Console.WriteLine(0);
+                    return;
+                }
             }
-
-            if (numbers.Count <= 0)
+            if (stack.Contains(searchedNum))
             {
-                Console.WriteLine(0);
+                Console.WriteLine("true");
                 return;
             }
-            else if (!numbers.Contains(seekNum))
-            {
-                int smallestNum = numbers.Min();
-                Console.WriteLine(smallestNum);
-                return;
-            }
-
-            Console.WriteLine("true");
+            Console.WriteLine(stack.Min());
         }
     }
 }

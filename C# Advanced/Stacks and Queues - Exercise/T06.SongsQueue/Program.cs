@@ -9,41 +9,53 @@ namespace T06.SongsQueue
         static void Main(string[] args)
         {
             Queue<string> songs = new Queue<string>
-                (
-                 Console.ReadLine()
+                (Console.ReadLine()
                 .Split(", ", StringSplitOptions.RemoveEmptyEntries)
                 );
 
-            string commands = Console.ReadLine();
-            while (songs.Count != 0)
+            while (true)
             {
-                string[] cmdArgs = commands.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                string command = cmdArgs[0];
+                if (songs.Count == 0)
+                {
+                    Console.WriteLine("No more songs!");
+                    break;
+                }
 
-                if (command == "Play")
+                string[] commands = Console.ReadLine()
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                string cmdArgs = commands[0];
+                StringBuilder sb = new StringBuilder();
+
+                if (cmdArgs == "Show")
+                {
+                    Console.WriteLine(string.Join(", ", songs));
+                }
+                else if (cmdArgs == "Add")
+                {
+                    for (int i = 1; i < commands.Length; i++)
+                    {
+                        sb.Append(commands[i]);
+                        if (i < commands.Length - 1)
+                        {
+                            sb.Append(' ');
+                        }
+                    }
+                    string currentSong = sb.ToString();
+
+                    if (songs.Contains(currentSong))
+                    {
+                        Console.WriteLine($"{currentSong} is already contained!");
+                    }
+                    else
+                    {
+                        songs.Enqueue(currentSong);
+                    }
+                }
+                else if (cmdArgs == "Play")
                 {
                     songs.Dequeue();
                 }
-                else if (command == "Add")
-                {
-                    string currentSong = commands.Substring(command.Length + 1);
-
-                    if (!songs.Contains(currentSong))
-                    {
-                        songs.Enqueue(currentSong);
-                        commands = Console.ReadLine();
-                        continue;
-                    }
-                    Console.WriteLine($"{currentSong} is already contained!");
-                }
-                else if (command == "Show")
-                {
-                    Console.WriteLine(String.Join(", ", songs));
-                }
-                
-                commands = Console.ReadLine();
             }
-            Console.WriteLine("No more songs!");
         }
     }
 }

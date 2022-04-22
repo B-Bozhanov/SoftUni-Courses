@@ -32,12 +32,11 @@ namespace T02_BasicQueueOperations
             for (int i = 0; i < s; i++)
             {
                 numbers.Dequeue();
-            }
-
-            if (numbers.Count <= 0)
-            {
-                Console.WriteLine(0);
-                return;
+                if (numbers.Count <= 0)
+                {
+                    Console.WriteLine(0);
+                    return;
+                }
             }
 
             if (numbers.Contains(x))
@@ -48,7 +47,6 @@ namespace T02_BasicQueueOperations
             {
                 Console.WriteLine(numbers.Min());
             }
-
         }
     }
 }

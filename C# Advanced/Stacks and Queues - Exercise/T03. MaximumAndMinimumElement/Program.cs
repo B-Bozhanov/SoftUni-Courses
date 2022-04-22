@@ -13,19 +13,18 @@ namespace T03._MaximumAndMinimumElement
 
             for (int i = 0; i < n; i++)
             {
-                int[] input = Console.ReadLine()
+                int[] commands = Console.ReadLine()
                     .Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                    .Select(x => int.Parse(x))
+                    .Select(int.Parse)
                     .ToArray();
-
-                int command = input[0];
+                int command = commands[0];
 
                 if (command == 1)
                 {
-                    int num = input[1];
-                    stack.Push(num);
+                    int element = commands[1];
+                    stack.Push(element);
                 }
-                if (stack.Count > 0)
+                else if (stack.Count > 0)
                 {
                     if (command == 2)
                     {
@@ -33,15 +32,14 @@ namespace T03._MaximumAndMinimumElement
                     }
                     else if (command == 3)
                     {
-                            Console.WriteLine(stack.Max());
+                        Console.WriteLine(stack.Max());
                     }
                     else if (command == 4)
                     {
-                            Console.WriteLine(stack.Min());
+                        Console.WriteLine(stack.Min());
                     }
                 }
             }
-
             Console.WriteLine(String.Join(", ", stack));
         }
     }
