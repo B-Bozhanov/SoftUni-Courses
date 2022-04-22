@@ -28,7 +28,7 @@ namespace _01._Basic_Stack_Operations
             {
                 numbers.Push(inputNumbers[i]);
             }
-            
+
             for (int i = 0; i < pop; i++)
             {
                 numbers.Pop();
