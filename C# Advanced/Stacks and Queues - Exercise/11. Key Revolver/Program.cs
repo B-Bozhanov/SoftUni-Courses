@@ -25,11 +25,10 @@ namespace _11._Key_Revolver
                );
             var money = int.Parse(Console.ReadLine());
             var shootedBulets = 0;
-            var isToReload = true;
-
+            
             while (true)
             {
-                if (bulets.Count == 0 && locks.Count > 0) 
+                if (bulets.Count == 0 && locks.Count > 0)
                 {
                     Console.WriteLine($"Couldn't get through. Locks left: {locks.Count}");
                     break;
@@ -41,6 +40,8 @@ namespace _11._Key_Revolver
                     Console.WriteLine($"{bulets.Count} bullets left. Earned ${moneyEarned}");
                     break;
                 }
+
+                var isToReload = true;
 
                 for (int i = 0; i < barels; i++)
                 {
@@ -62,7 +63,7 @@ namespace _11._Key_Revolver
 
                     if (bulets.Count == 0 || locks.Count == 0)
                     {
-                        if (i != barels -1)         // Also if there no any locks and we have bullets in the barel yet, no need to reload.
+                        if (i != barels - 1)         // Also if there no any locks and we have bullets in the barel yet, no need to reload.
                         {
                             isToReload = false;
                         }
