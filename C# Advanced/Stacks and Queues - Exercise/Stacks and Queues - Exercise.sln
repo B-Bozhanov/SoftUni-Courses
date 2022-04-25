@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "09. Simple Text Editor", "0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "10. Crossroads", "10. Crossroads\10. Crossroads.csproj", "{2D5E78C0-3C7F-4317-9473-B5B2E5BCEFF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "11. Key Revolver", "11. Key Revolver\11. Key Revolver.csproj", "{EC573B06-DAD5-49D3-858A-D0F6970EC971}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "11. Key Revolver", "11. Key Revolver\11. Key Revolver.csproj", "{EC573B06-DAD5-49D3-858A-D0F6970EC971}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "12. Cups and Bottles", "12. Cups and Bottles\12. Cups and Bottles.csproj", "{ED256BE3-AA52-4507-891D-8768C7BF7768}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{EC573B06-DAD5-49D3-858A-D0F6970EC971}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC573B06-DAD5-49D3-858A-D0F6970EC971}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC573B06-DAD5-49D3-858A-D0F6970EC971}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED256BE3-AA52-4507-891D-8768C7BF7768}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED256BE3-AA52-4507-891D-8768C7BF7768}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED256BE3-AA52-4507-891D-8768C7BF7768}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED256BE3-AA52-4507-891D-8768C7BF7768}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
