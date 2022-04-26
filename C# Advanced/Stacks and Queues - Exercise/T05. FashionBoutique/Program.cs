@@ -8,40 +8,34 @@ namespace T05._FashionBoutique
     {
         static void Main(string[] args)
         {
-            Stack<int> clothes = new Stack<int>(
-                Console.ReadLine()
+            int[] input = Console.ReadLine()
                 .Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => int.Parse(x)));
-            int capacity = int.Parse(Console.ReadLine());
-            int sum = 0;
-            int boxes = 0;
+                .Select(int.Parse)
+                .ToArray();
+            Stack<int> clothes = new Stack<int>(input);
+            int rackCapacity = int.Parse(Console.ReadLine());
+            int racks = 0;
+            int currentSum = 0;
 
-            if (clothes.Count == 1 && clothes.Peek() == 0 || capacity == 0)
+            while (true)
             {
-                //Console.WriteLine("Incorect input");
-                return;
-            }
-
-            while (clothes.Count != 0)
-            {
-                int current = clothes.Pop();
-                sum += current;
-
-                if (sum >= capacity)
+                if (clothes.Count == 0)
                 {
-                    if (sum > capacity)
-                    {
-                        clothes.Push(current);
-                    }
-                    boxes++;
-                    sum = 0;
+                    Console.WriteLine(racks);
+                    break;
                 }
-                else if (clothes.Count == 0)
+                currentSum += clothes.Pop();
+                if (currentSum > rackCapacity || currentSum + clothes.Peek() > rackCapacity)
                 {
-                    boxes++;
+                    racks++;
+                    currentSum = 0;
+                }
+                if (clothes.Count == 1)
+                {
+                    racks++;
+                    clothes.Pop();
                 }
             }
-            Console.WriteLine(boxes);
         }
     }
 }

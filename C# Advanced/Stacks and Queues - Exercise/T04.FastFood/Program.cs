@@ -10,26 +10,26 @@ namespace T04.FastFood
         {
             int totalFood = int.Parse(Console.ReadLine());
             Queue<int> orders = new Queue<int>
-                (
-                Console.ReadLine()
+                (Console.ReadLine()
                 .Split(' ', StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => int.Parse(x))
                 );
-            int maxOrder = orders.Max();
-            Console.WriteLine(maxOrder);
 
-            while (orders.Count != 0)
+            Console.WriteLine(orders.Max());
+            while (true)
             {
-                int currOrder = orders.Peek();
-                if (totalFood < currOrder)
+                if (orders.Count == 0)
+                {
+                    Console.WriteLine("Orders complete");
+                    return;
+                }
+                if (totalFood < orders.Peek())
                 {
                     Console.WriteLine($"Orders left: {string.Join(' ', orders)}");
                     return;
                 }
-
                 totalFood -= orders.Dequeue();
             }
-            Console.WriteLine("Orders complete");
         }
     }
 }

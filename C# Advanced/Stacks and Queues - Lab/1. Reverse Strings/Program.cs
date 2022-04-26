@@ -9,16 +9,22 @@ namespace _1._Reverse_Strings
         static void Main(string[] args)
         {
             string input = Console.ReadLine();
+
             Stack<char> stack = new Stack<char>(input);
 
-            //foreach (var ch in stack)
+            //foreach (var item in input)
             //{
-            //    Console.Write(ch);
+            //    stack.Push(item);
             //}
-            while (stack.Any())
+            foreach (var item in stack)
             {
-                Console.Write(stack.Pop());
+                Console.Write(item);
             }
+            //while (stack.Any())
+            //{
+            //    Console.Write(stack.Pop());
+            //}
         }
     }
 }
+
