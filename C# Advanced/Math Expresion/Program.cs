@@ -35,6 +35,12 @@ namespace Math_Expresion
                         var num2 = numbers.Pop();
                         var num1 = numbers.Pop();
                         var operat = operators.Pop();
+                        //if (operators.Peek() == '-')
+                        //{
+                        //    num1 *= -1;
+                        //}
+
+                        numbers.Push(Calculation(operat, num1, num2));
                     }
                 }
                 else if (validOperators.Contains(ch))
@@ -58,6 +64,28 @@ namespace Math_Expresion
                 }
             }
             return 0.0;
+        }
+        private static double Calculation(char ch, double num1, double num2)
+        {
+            switch (ch)
+            {
+                case '+': return num1 + num2;
+                case '-': return num1 - num2;
+                case '*': return num1 * num2;
+                case '/': return num1 / num2;
+                default: return 0.0;
+            }
+        }
+        private static int Prioriry(char ch)
+        {
+            switch (ch)
+            {
+                case '+': return 1;
+                case '-': return 1;
+                case '*': return 2;
+                case '/': return 2;
+                default: return 0;
+            }
         }
     }
 }
