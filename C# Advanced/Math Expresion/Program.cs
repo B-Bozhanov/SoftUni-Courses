@@ -8,18 +8,26 @@ namespace Math_Expresion
     {
         static void Main(string[] args)
         {
-            var expresion = "((10 - 5 + 3)*2)/2";
-            var result = Solution(expresion);
-            Console.WriteLine(result);
+            while (true)
+            {
+                Console.WriteLine("Type expresion: (Press esc to Exit)");
+                var expresion = Console.ReadLine();
+                var result = Solution(expresion);
+                Console.WriteLine($"Result: {result}");
+            }
+
         }
 
         private static double Solution(string expresion)
         {
             var numbers = new Stack<double>();
             var operators = new Stack<char>();
-            string validOperators = "+-*/";
+            var unknowns = new Stack<double>();
+            string validOperators = "+-*/^%";
+            var openBracketCount = 0;
+            var isEqualChar = false;
             //TODO: Check for Valid expresion!
-
+            // 4x +30 -10 +2x = x + 10
             for (int i = 0; i < expresion.Length; i++)
             {
                 var ch = expresion[i];
@@ -27,6 +35,7 @@ namespace Math_Expresion
                 if (ch == '(')
                 {
                     operators.Push(ch);
+                    openBracketCount++;
                 }
                 else if (ch == ')')
                 {
@@ -35,16 +44,25 @@ namespace Math_Expresion
                         var num2 = numbers.Pop();
                         var num1 = numbers.Pop();
                         var operat = operators.Pop();
-                        //if (operators.Peek() == '-')
-                        //{
-                        //    num1 *= -1;
-                        //}
-
+                        // 18-(3*3-4)
                         numbers.Push(Calculation(operat, num1, num2));
                     }
+                    operators.Pop();  // (
+                    openBracketCount--;
                 }
                 else if (validOperators.Contains(ch))
                 {
+                    while (operators.Count > 0 && Prioriry(operators.Peek()) >= Prioriry(ch))
+                    {
+                        if (operators.Count - openBracketCount + 1 > numbers.Count) // 1 is the current char
+                        {
+                            break;
+                        }
+                        var num2 = numbers.Pop();
+                        var num1 = numbers.Pop();
+                        var operat = operators.Pop();
+                        numbers.Push(Calculation(operat, num1, num2));
+                    }
                     operators.Push(ch);
                 }
                 else if (Char.IsDigit(ch))
@@ -56,14 +74,66 @@ namespace Math_Expresion
                         number.Append(ch);
 
                         i++;                  // continue with For loop in While loop
+                        if (i == expresion.Length)
+                        {
+                            break;
+                        }
                         ch = expresion[i];
                     }
-                    i--;                      // To not lose the last operator after the digits.
+                    i--;                      // To not lose the last operator after the digit.
+                    var currentNum = double.Parse(number.ToString());
 
-                    numbers.Push(double.Parse(number.ToString()));
+                    if (operators.Count - openBracketCount > numbers.Count)
+                    {
+                        if (operators.Peek() == '+')
+                        {
+                            operators.Pop();
+                            numbers.Push(currentNum);
+                            continue;
+                        }
+                        currentNum *= -1;
+                        operators.Pop();
+                    }
+                    numbers.Push(currentNum);
+                }
+                else if (ch == 'x')
+                {
+                    // 4x + 30 - 10 + 2x = x + 10
+                    var polarity = 1;
+                    if (operators.Count > 0 && operators.Peek() == '-')
+                    {
+                        polarity = -1;
+                    }
+                    if (Char.IsDigit(expresion[i - 1]))
+                    {
+                        if (isEqualChar)
+                        {
+                            polarity = -1;
+                        }
+                        unknowns.Push(numbers.Pop() * polarity);
+                    }
+                    else
+                    {
+                        unknowns.Push(1 * polarity);
+                    }
+                    if (operators.Count > 0 )
+                    {
+                        operators.Pop();
+                    }
+                }
+                else if (ch == '=')
+                {
+                    isEqualChar = true;
                 }
             }
-            return 0.0;
+            while (operators.Count > 0)
+            {
+                var num2 = numbers.Pop();
+                var num1 = numbers.Pop();
+                var operat = operators.Pop();
+                numbers.Push(Calculation(operat, num1, num2));
+            }
+            return numbers.Pop();
         }
         private static double Calculation(char ch, double num1, double num2)
         {
@@ -73,6 +143,7 @@ namespace Math_Expresion
                 case '-': return num1 - num2;
                 case '*': return num1 * num2;
                 case '/': return num1 / num2;
+                case '^': return Math.Pow(num1, num2);
                 default: return 0.0;
             }
         }
@@ -84,6 +155,7 @@ namespace Math_Expresion
                 case '-': return 1;
                 case '*': return 2;
                 case '/': return 2;
+                case '^': return 3;
                 default: return 0;
             }
         }
