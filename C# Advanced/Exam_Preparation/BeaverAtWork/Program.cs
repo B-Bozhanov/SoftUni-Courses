@@ -2,266 +2,212 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace _02._Beaver_at_Work
+namespace BeaverAtWork
 {
     internal class Program
     {
-        
-        private static int beaverRow = -1;
-        private static int beaverCol = -1;
-        private static int swiming;
-        private static bool isLeftOrRight;
-
-        private static Stack<char> woods = new Stack<char>();
-        private static int woodBranches = 0;
-
         static void Main(string[] args)
         {
             var size = int.Parse(Console.ReadLine());
-            var field = new char[size, size];
-            var beaver = new Beaver(-1, -1);  // -1 by default: 
-            FillMatrix(field, beaver);
-            
+            char[,] pond = new char[size, size];
+            var beaver = new Beaver();  // -1 by default: 
 
-            while (true)
+            int totalBraches = FillPondAndGetInfo(pond, beaver);
+
+
+            Possition[] directions = new Possition[]
             {
-                var commands = Console.ReadLine();
-                var move = 0;
+                new Possition(-1, 0), // up
+                new Possition(1, 0),  // down
+                new Possition(0, -1), // left
+                new Possition(0, 1),  // right
+            };
+            var direction = 0;
 
-                if (woodBranches == 0)
+            var commands = Console.ReadLine();
+            while (commands != "end")
+            {
+                int lengthOfPond = 0;
+
+                if (totalBraches == 0) // If branches are zero, the beaver is collected all  branches in the pond:
                 {
-                    break;
-                }
-                else if (commands == "end")
-                {
-                    break;
-                }
-                else if (commands == "up")
-                {
-                    move = -1;
-                }
-                else if (commands == "up")
-                {
-                    move = -1;
-                }
-                else if (commands == "up")
-                {
-                    move = -1;
-                }
-                else if (commands == "up")
-                {
-                    move = -1;
+                    Console.WriteLine($"The Beaver successfully collect {beaver.Branches.Count} wood branches: {string.Join(", ", beaver.Branches.Reverse())}.");
+                    PrintPond(pond);
+                    return;
                 }
 
-                var direction = GetDirection(commands);
-                var row = direction[0];
-                var col = direction[1];
-                BeaverMove(beaverRow + row, beaverCol + col, swiming, isLeftOrRight);
+                if (commands == "up")
+                {
+                    direction = 0;
+                    lengthOfPond = pond.GetLength(0) - 1;
+                }
+                else if (commands == "down")
+                {
+                    direction = 1;
+                }
+                else if (commands == "left")
+                {
+                    direction = 2;
+                }
+                else if (commands == "right")
+                {
+                    direction = 3;
+                    lengthOfPond = pond.GetLength(1) - 1;
+                }
+
+                Possition nextDirection = directions[direction];
+
+                beaver.Move(pond, nextDirection, lengthOfPond);
+                if (beaver.IsFindBranch)
+                {
+                    totalBraches--;
+                }
+
+                commands = Console.ReadLine();
             }
+            Console.WriteLine($"The Beaver failed to collect every wood branch. There are {beaver.Branches.Count} branches left.");
+            PrintPond(pond);
+        }
 
-            if (woodBranches > 0)
-            {
-                Console.WriteLine($"The Beaver failed to collect every wood branch. There are {woodBranches} branches left.");
-            }
-            else
-            {
-                Console.WriteLine($"The Beaver successfully collect {woods.Count} wood branches: {string.Join(", ", woods.Reverse())}.");
-            }
 
-            for (int i = 0; i < field.GetLength(0); i++)
+        private static int FillPondAndGetInfo(char[,] pond, Beaver beaver)
+        {
+            int count = 0;
+            for (int row = 0; row < pond.GetLength(0); row++)
             {
-                for (int j = 0; j < field.GetLength(1); j++)
+                char[] fieldInfo = Console.ReadLine().Where(x => x != ' ').ToArray();
+
+                for (int col = 0; col < pond.GetLength(1); col++)
                 {
-                    Console.Write($"{field[i, j]} ");
+                    if (fieldInfo[col] == beaver.Name)
+                    {
+                        beaver.Coords.Row = row;
+                        beaver.Coords.Col = col;
+                    }
+                    if (Char.IsLower(fieldInfo[col]))
+                    {
+                        count++;
+                    }
+                    pond[row, col] = fieldInfo[col];
+                }
+            }
+            return count;
+        }
+        private static void PrintPond(char[,] pond)
+        {
+            for (int row = 0; row < pond.GetLength(0); row++)
+            {
+                for (int col = 0; col < pond.GetLength(1); col++)
+                {
+                    Console.Write($"{pond[row, col]} ");
                 }
                 Console.WriteLine();
             }
         }
-
-        private static void FillMatrix(char[,] field, Beaver beaver)
-        {
-            for (int row = 0; row < field.GetLength(0); row++)
-            {
-                char[] fieldInfo = Console.ReadLine().Where(x => x != ' ').ToArray();
-
-                for (int col = 0; col < field.GetLength(1); col++)
-                {
-                    if (fieldInfo[col] == 'B')
-                    {
-                        beaver.Possition.Row = row;
-                        beaver.Possition.Col = col;
-                    }
-                    else if (Char.IsLower(fieldInfo[col]))
-                    {
-                        beaver.Branches.Push(fieldInfo[col]);
-                    }
-                    field[row, col] = fieldInfo[col];
-                }
-            }
-        }
-
-        private static bool IsRange(char[,] field, int row, int col)
-        {
-            return row >= 0 && row < field.GetLength(0)
-                && col >= 0 && col < field.GetLength(1);
-        }
-        private static void BeaverMove(int row, int col, int direction, bool isLeftOrRight)
-        {
-            if (!IsRange(field, row, col))
-            {
-                if (woods.Count > 0)
-                {
-                    woods.Pop();
-                }
-                return;
-            }
-
-            if (field[row, col] == 'F')
-            {
-                if (isLeftOrRight)
-                {
-                    if (Char.IsLower(field[row, direction]))
-                    {
-                        woods.Push(field[row, direction]);
-                        woodBranches--;
-                    }
-                    field[row, direction] = 'B';
-                    field[row, col] = '-';
-                    field[beaverRow, beaverCol] = '-';
-                    beaverRow = row;
-                    beaverCol = direction;
-                    return;
-                }
-                if (Char.IsLower(field[direction, col]))
-                {
-                    woods.Push(field[direction, col]);
-                    woodBranches--;
-                }
-                field[direction, col] = 'B';
-                field[row, col] = '-';
-                field[beaverRow, beaverCol] = '-';
-                beaverRow = direction;
-                beaverCol = col;
-            }
-            else
-            {
-                if (Char.IsLower(field[row, col]))
-                {
-                    woods.Push(field[row, col]);
-                    woodBranches--;
-                }
-                field[row, col] = 'B';
-                field[beaverRow, beaverCol] = '-';
-                beaverRow = row;
-                beaverCol = col;
-            }
-        }
-
-        private static int[] GetDirection(string commands)
-        {
-            var direction = new int[2];
-            if (commands == "up")
-            {
-                direction[0] = -1;
-                direction[1] = 0;
-                if (!IsRange(field, beaverRow - 2, beaverCol)
-                    && IsRange(field, beaverRow - 1, beaverCol)
-                    && field[beaverRow - 1, beaverCol] == 'F')
-                {
-                    swiming = field.GetLength(0) - 1;
-                }
-                else
-                {
-                    swiming = 0;
-                }
-                isLeftOrRight = false;
-            }
-            else if (commands == "down")
-            {
-                if (!IsRange(field, beaverRow + 2, beaverCol)
-                   && IsRange(field, beaverRow + 1, beaverCol)
-                   && field[beaverRow + 1, beaverCol] == 'F')
-                {
-                    swiming = 0;
-                }
-                else
-                {
-                    swiming = swiming = field.GetLength(0) - 1;
-                }
-                direction[0] = +1;
-                direction[1] = 0;
-                isLeftOrRight = false;
-            }
-            else if (commands == "left")
-            {
-                direction[0] = 0;
-                direction[1] = -1;
-                if (!IsRange(field, beaverRow, beaverCol - 2)
-                   && IsRange(field, beaverRow, beaverCol - 1)
-                   && field[beaverRow, beaverCol - 1] == 'F')
-                {
-                    swiming = field.GetLength(1) - 1;
-                }
-                else
-                {
-                    swiming = 0;
-                }
-                isLeftOrRight = true;
-            }
-            else if (commands == "right")
-            {
-                direction[0] = 0;
-                direction[1] = 1;
-                if (!IsRange(field, beaverRow, beaverCol + 2)
-                   && IsRange(field, beaverRow, beaverCol + 1)
-                   && field[beaverRow, beaverCol + 1] == 'F')
-                {
-                    swiming = 0;
-                }
-                else
-                {
-                    swiming = swiming = field.GetLength(1) - 1;
-                }
-                isLeftOrRight = true;
-            }
-
-            return direction;
-        }
     }
     internal class Beaver
     {
-        public Beaver(int row, int col)
+        public Beaver()
         {
             this.Branches = new Stack<char>();
-            this.Possition = new Possition(row, col);
+            this.Coords = new Possition();
             this.Name = 'B';
         }
 
-        public Possition Possition { get; set; }
+        public Possition Coords { get; set; }
         public Stack<char> Branches { get; private set; }
         public char Name { get; private set; }
+        public bool IsFindBranch { get; private set; }
 
 
-        public Possition Move(char[,] pond, int row, int col)
+        public void Move(char[,] pond, Possition direction, bool isUp, bool isLeft)
         {
-            this.Possition.Row += row;
-            this.Possition.Col += col;
-            return this.Possition;
-        }
-        public void Swim(char[,] pond)
-        {
-
-        }
-        public void Collect(char branch)
-        {
-            this.Branches.Push(branch);
-        }
-        public void DisCollect()
-        {
-            if (this.Branches.Any())
+            if (IsRange(pond, Coords.Row + direction.Row, Coords.Col + direction.Col))
             {
-                this.Branches.Pop();
+                pond[this.Coords.Row, this.Coords.Col] = '-';
+                this.Coords.Row += direction.Row;
+                this.Coords.Col += direction.Col;
+                CollectBranches(pond);
+
+                if (pond[this.Coords.Row, this.Coords.Col] == 'F')
+                {
+                    pond[this.Coords.Row, this.Coords.Col] = '-';
+                    Swim();
+                }
+
+                pond[this.Coords.Row, this.Coords.Col] = this.Name;
             }
+            else
+            {
+                if (this.Branches.Any())
+                {
+                    this.Branches.Pop();
+                }
+                IsFindBranch = false;
+            }
+
+            void Swim()
+            {
+                if (Coords.Row == 0)  // Move to the last down
+                {
+                    Coords.Row = pond.GetLength(0) - 1;
+                    CollectBranches(pond);
+
+                }
+                else if (Coords.Row == pond.GetLength(0) - 1) // Move to zero index
+                {
+                    Coords.Row = 0;
+                    CollectBranches(pond);
+                }
+                else if (Coords.Col == 0) // Move to last index right
+                {
+                    Coords.Col = pond.GetLength(1) - 1;
+                    CollectBranches(pond);
+                }
+                else if (Coords.Col == pond.GetLength(1) - 1) // Move to zero index
+                {
+                    Coords.Col = 0;
+                    CollectBranches(pond);
+                }
+                else
+                {
+                    switch (isUp)
+                    {
+                        case true:
+                            Coords.Row = 0;
+                            CollectBranches(pond); break;
+                        case false:
+                            Coords.Row = pond.GetLength(0) - 1;
+                            CollectBranches(pond); break;
+                    }
+                    switch (isLeft)
+                    {
+                        case true:
+                            Coords.Col = 0;
+                            CollectBranches(pond); break;
+                        case false:
+                            Coords.Col = pond.GetLength(1) - 1;
+                            CollectBranches(pond); break;
+                    }
+                }
+            }
+        }
+        private void CollectBranches(char[,] pond)
+        {
+            if (Char.IsLower(pond[this.Coords.Row, this.Coords.Col]))
+            {
+                this.Branches.Push(pond[this.Coords.Row, this.Coords.Col]);
+                IsFindBranch = true;
+            }
+            else
+            {
+                IsFindBranch = false;
+            }
+        }
+        private bool IsRange(char[,] field, int row, int col)
+        {
+            return row >= 0 && row < field.GetLength(0)
+                && col >= 0 && col < field.GetLength(1);
         }
     }
 
@@ -271,6 +217,11 @@ namespace _02._Beaver_at_Work
         {
             this.Row = row;
             this.Col = col;
+        }
+        public Possition()
+        {
+            this.Row = 0;
+            this.Col = 0;
         }
 
         public int Row { get; set; }
