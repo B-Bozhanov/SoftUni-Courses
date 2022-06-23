@@ -1,18 +1,14 @@
 ﻿namespace PersonInfo
 {
-    public class Citizen : IPerson, IIdentifiable, IBirthable
+    public class Citizen : IPerson
     {
-        public Citizen(string name, int age, string id, string birthDate)
+        public Citizen(string name, int age)
         {
             this.Name = name;
             this.Age = age;
-            this.Id = id;
-            this.Birthdate = birthDate;
         }
 
         public string Name { get; set; }
         public int Age { get; set; }
-        public string Id { get; set; }
-        public string Birthdate { get; set; }
     }
 }
