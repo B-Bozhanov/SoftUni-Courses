@@ -13,7 +13,6 @@ namespace T03ShoppingSpree
             string[] productInfo = Console.ReadLine().Split(separators, StringSplitOptions.RemoveEmptyEntries);
             List<Person> persons = new List<Person>();
             List<Product> products = new List<Product>();
-            // peter 11 george 13
 
             for (int i = 0; i < personInfo.Length ; i += 2)
             {
@@ -29,7 +28,7 @@ namespace T03ShoppingSpree
                 }
             }
 
-            for (int i = 0; i < personInfo.Length; i += 2)
+            for (int i = 0; i < productInfo.Length; i += 2)
             {
                 try
                 {
@@ -46,7 +45,7 @@ namespace T03ShoppingSpree
             string commands = Console.ReadLine();
             while (commands != "END")
             {
-                string[] cmdArgs = commands.Split();
+                string[] cmdArgs = commands.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 string personName = cmdArgs[0];
                 string productName = cmdArgs[1];
 
@@ -71,7 +70,7 @@ namespace T03ShoppingSpree
             {
                 if (item.Bag.Count == 0)
                 {
-                    Console.WriteLine($"{item.Name} Nothing bought");
+                    Console.WriteLine($"{item.Name} - Nothing bought");
                 }
                 else
                 {

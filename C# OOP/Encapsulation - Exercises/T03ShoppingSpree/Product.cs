@@ -17,7 +17,7 @@ namespace T03ShoppingSpree
             get => this.name;
             set
             {
-                if (String.IsNullOrEmpty(value))
+                if (String.IsNullOrWhiteSpace(value) || String.IsNullOrEmpty(value))
                 {
                     throw new Exception("Name cannot be empty");
                 }
