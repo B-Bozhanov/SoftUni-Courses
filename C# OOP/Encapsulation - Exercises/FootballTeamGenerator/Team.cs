@@ -7,7 +7,6 @@ namespace FootballTeamGenerator
     class Team
     {
         private string name;
-        private int rating;
         private List<Player> players;
 
         public Team(string name)
@@ -42,7 +41,7 @@ namespace FootballTeamGenerator
             {
                 return 0;
             }
-            return this.rating = players.Sum(p => p.AverageSkills) / this.players.Count;
+            return players.Sum(p => p.AverageSkills) / this.players.Count;
         }
         public void Add(Player player)
         {

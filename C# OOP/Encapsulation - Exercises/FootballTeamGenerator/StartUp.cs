@@ -7,15 +7,6 @@ namespace FootballTeamGenerator
     {
         static void Main(string[] args)
         {
-            // Team; Arsenal
-            // Add; Arsenal; Kieran_Gibbs; 75; 85; 84; 92; 67
-            // Add; Arsenal; Aaron_Ramsey; 95; 82; 82; 89; 68
-            // Remove; Arsenal; Aaron_Ramsey
-            // Rating; Arsenal
-            // END
-
-            //var teams = new List<Team>();
-
             var teams = new Dictionary<string, Team>();
             var input = Console.ReadLine();
             while (input != "END")
