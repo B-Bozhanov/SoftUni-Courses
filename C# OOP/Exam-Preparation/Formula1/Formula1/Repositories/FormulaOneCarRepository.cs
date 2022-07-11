@@ -5,17 +5,18 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    class FormulaOneCarRepository : IRepository<IFormulaOneCar>
+    public class FormulaOneCarRepository : IRepository<IFormulaOneCar>
     {
-        private readonly ICollection<IFormulaOneCar> models;
+        private readonly List<IFormulaOneCar> models;
 
         public FormulaOneCarRepository()
         {
             this.models = new List<IFormulaOneCar>();
         }
-        public IReadOnlyCollection<IFormulaOneCar> Models
-        {
-            get => this.models as IReadOnlyCollection<IFormulaOneCar>;
+
+        public IReadOnlyCollection<IFormulaOneCar> Models 
+        { 
+            get => this.models;
         }
 
         public void Add(IFormulaOneCar model)

@@ -1,15 +1,13 @@
 ﻿using Formula1.Models.Contracts;
 using Formula1.Repositories.Contracts;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Formula1.Repositories
 {
-    class PilotRepository : IRepository<IPilot>
+    public class PilotRepository : IRepository<IPilot>
     {
-        private readonly ICollection<IPilot> models;
+        private readonly List<IPilot> models;
 
         public PilotRepository()
         {
@@ -17,7 +15,7 @@ namespace Formula1.Repositories
         }
         public IReadOnlyCollection<IPilot> Models
         {
-            get => this.models as IReadOnlyCollection<IPilot>;
+            get => this.models;
         }
 
         public void Add(IPilot pilot)

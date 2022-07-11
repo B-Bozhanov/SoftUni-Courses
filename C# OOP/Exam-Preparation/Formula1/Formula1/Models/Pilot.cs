@@ -4,7 +4,7 @@
     using Formula1.Utilities;
     using System;
 
-    class Pilot : IPilot
+    public class Pilot : IPilot
     {
         private IFormulaOneCar car;
         private string fullName;
@@ -32,7 +32,7 @@
         public IFormulaOneCar Car
         {
             get => this.car;
-            set
+            private set
             {
                 if (value == null)
                 {

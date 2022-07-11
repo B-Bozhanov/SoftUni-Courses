@@ -1,26 +1,27 @@
-﻿using Formula1.Models.Contracts;
-namespace Formula1.Models
+﻿namespace Formula1.Models
 {
+    using Formula1.Models.Contracts;
     using Formula1.Utilities;
     using System;
     using System.Collections.Generic;
     using System.Text;
 
-    class Race : IRace
+    public class Race : IRace
     {
-        private ICollection<IPilot> pilots;
+        private readonly List<IPilot> pilots;
         private string raceName;
         private int numberOfLaps;
 
         private Race()
         {
             this.pilots = new List<IPilot>();
+            this.TookPlace = false;
         }
-        public Race(string raceName, int numberOfLaps) : this()
+        public Race(string raceName, int numberOfLaps) 
+            : this()
         {
             this.RaceName = raceName;
             this.NumberOfLaps = numberOfLaps;
-            this.TookPlace = false;
         }
         public string RaceName
         {
@@ -61,11 +62,20 @@ namespace Formula1.Models
 
         public string RaceInfo()
         {
+            string tookPlace = string.Empty;
+            if (this.TookPlace)
+            {
+                tookPlace = "Yes";
+            }
+            else
+            {
+                tookPlace = "No";
+            }
             var info = new StringBuilder();
             info.AppendLine($"The { this.raceName } race has:");
             info.AppendLine($"Participants: {this.pilots.Count}");
             info.AppendLine($"Number of laps: {this.NumberOfLaps }");
-            info.AppendLine($"Took place {this.TookPlace}");
+            info.AppendLine($"Took place {tookPlace}");
             return info.ToString().Trim();
         }
     }

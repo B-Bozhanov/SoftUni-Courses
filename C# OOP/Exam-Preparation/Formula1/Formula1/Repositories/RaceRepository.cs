@@ -5,9 +5,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    class RaceRepository : IRepository<IRace>
+    public class RaceRepository : IRepository<IRace>
     {
-        private readonly ICollection<IRace> models;
+        private readonly List<IRace> models;
 
         public RaceRepository()
         {
@@ -15,12 +15,12 @@
         }
         public IReadOnlyCollection<IRace> Models
         {
-            get => this.models as IReadOnlyCollection<IRace>;
+            get => this.models ;
         }
 
-        public void Add(IRace pilot)
+        public void Add(IRace race)
         {
-            this.models.Add(pilot);
+            this.models.Add(race);
         }
 
         public IRace FindByName(string name)

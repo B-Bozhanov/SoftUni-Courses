@@ -4,17 +4,15 @@
     using Formula1.Models.Contracts;
     using Formula1.Utilities;
 
-    public abstract class FormulaOneCar : IFormulaOneCar, ICar
+    public abstract class FormulaOneCar : IFormulaOneCar
     {
-        private string type;
         private string model;
         private int horsePower;
         private double engineDisplacement;
 
 
-        public FormulaOneCar(string type, string model, int horsePower, double engineDisplacement)
+        public FormulaOneCar(string model, int horsePower, double engineDisplacement)
         {
-            this.CarType = type;
             this.Model = model;
             this.Horsepower = horsePower;
             this.EngineDisplacement = engineDisplacement;
@@ -59,20 +57,6 @@
                         string.Format(ExceptionMessages.InvalidF1EngineDisplacement, value));
                 }
                 this.engineDisplacement = value;
-            }
-        }
-
-        public string CarType
-        {
-            get => this.type;
-            private set
-            {
-                if (this.type != "Ferrary" && this.type != "Williams")
-                {
-                    throw new InvalidOperationException(
-                        string.Format(ExceptionMessages.InvalidTypeCar, value));
-                }
-                this.type = value;
             }
         }
 
