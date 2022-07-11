@@ -23,14 +23,14 @@
             this.models.Add(race);
         }
 
-        public IRace FindByName(string name)
+        public IRace FindByName(string race)
         {
-            return this.models.FirstOrDefault(m => m.RaceName == name);
+            return this.models.FirstOrDefault(m => m.RaceName == race);
         }
 
-        public bool Remove(IRace pilot)
+        public bool Remove(IRace race)
         {
-            return this.models.Remove(pilot);
+            return this.models.Remove(race);
         }
     }
 }

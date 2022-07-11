@@ -24,9 +24,9 @@
             this.models.Add(model);
         }
 
-        public IFormulaOneCar FindByName(string name)
+        public IFormulaOneCar FindByName(string model)
         {
-            return this.models.FirstOrDefault(m => m.Model == name);
+            return this.models.FirstOrDefault(m => m.Model == model);
         }
 
         public bool Remove(IFormulaOneCar model)

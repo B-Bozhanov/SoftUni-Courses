@@ -9,11 +9,16 @@
         private IFormulaOneCar car;
         private string fullName;
 
-        public Pilot(string fullName)
+
+        private Pilot()
         {
-            this.FullName = fullName;
             this.CanRace = false;
             this.NumberOfWins = 0;
+        }
+        public Pilot(string fullName)
+            : this()
+        {
+            this.FullName = fullName;
         }
         public string FullName
         {

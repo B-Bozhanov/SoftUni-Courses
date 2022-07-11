@@ -17,7 +17,7 @@
             this.pilots = new List<IPilot>();
             this.TookPlace = false;
         }
-        public Race(string raceName, int numberOfLaps) 
+        public Race(string raceName, int numberOfLaps)
             : this()
         {
             this.RaceName = raceName;
@@ -51,7 +51,7 @@
             }
         }
 
-        public bool TookPlace { get; set; } // !!!
+        public bool TookPlace { get; set; } 
 
         public ICollection<IPilot> Pilots { get => this.pilots; }
 
@@ -62,7 +62,7 @@
 
         public string RaceInfo()
         {
-            string tookPlace = string.Empty;
+            string tookPlace;
             if (this.TookPlace)
             {
                 tookPlace = "Yes";
@@ -72,11 +72,12 @@
                 tookPlace = "No";
             }
             var info = new StringBuilder();
-            info.AppendLine($"The { this.raceName } race has:");
-            info.AppendLine($"Participants: {this.pilots.Count}");
-            info.AppendLine($"Number of laps: {this.NumberOfLaps }");
-            info.AppendLine($"Took place {tookPlace}");
-            return info.ToString().Trim();
+            info.AppendLine($"The {this.RaceName} race has:");
+            info.AppendLine($"Participants: {this.Pilots.Count}");
+            info.AppendLine($"Number of laps: {this.NumberOfLaps}");
+            info.AppendLine($"Took place: {tookPlace}");
+
+            return info.ToString().TrimEnd();
         }
     }
 }

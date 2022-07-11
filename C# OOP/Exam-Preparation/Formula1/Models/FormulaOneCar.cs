@@ -53,13 +53,16 @@
             {
                 if (value < 1.6 || value > 2.00)
                 {
-                    throw new ArgumentNullException(
+                    throw new ArgumentException(
                         string.Format(ExceptionMessages.InvalidF1EngineDisplacement, value));
                 }
                 this.engineDisplacement = value;
             }
         }
 
-        public double RaceScoreCalculator(int laps) => this.EngineDisplacement / this.Horsepower * laps;
+        public double RaceScoreCalculator(int laps)
+        {
+            return this.EngineDisplacement / this.Horsepower * laps;
+        }
     }
 }
