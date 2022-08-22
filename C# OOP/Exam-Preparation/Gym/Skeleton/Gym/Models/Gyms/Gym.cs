@@ -88,7 +88,14 @@ namespace Gym.Models.Gyms
                 gymInfo.Append($"Athletes: ");
                 foreach (var athlete in this.athletes)
                 {
-                    gymInfo.Append($"{athlete.FullName}, ");
+                    if (athlete == this.athletes.Last())
+                    {
+                        gymInfo.Append($"{athlete.FullName}");
+                    }
+                    else
+                    {
+                        gymInfo.Append($"{athlete.FullName}, ");
+                    }
                 }
                 gymInfo.AppendLine();
             }
