@@ -30,7 +30,7 @@
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(ConnectionSettings.DbConnectionString);
+                optionsBuilder.UseSqlServer(ConnectionSettings.RemoteDbConnectionString);
             }
         }
 
