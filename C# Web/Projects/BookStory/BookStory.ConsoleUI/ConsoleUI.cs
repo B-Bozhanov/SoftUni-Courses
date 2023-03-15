@@ -1,11 +1,6 @@
-﻿namespace BookStory.UI.ConsoleUI
+﻿namespace BookStory.ConsoleUI
 {
-    using System.Reflection;
-
-    using BookStory.Controlers;
-    using BookStory.Data.Data;
     using BookStory.Services;
-
 
     public class ConsoleUI
     {
@@ -18,7 +13,7 @@
             this.bookService = bookService;
         }
 
-        public async Task Start()
+        public void Start()
         {
             while (true)
             {
@@ -48,7 +43,7 @@
             }
         }
 
-        private async Task Login()
+        private void Login()
         {
 
             var controler = new HomeControler();
@@ -67,8 +62,6 @@
             {
                 var account = this.accountService.Login(username!, encryptedPassword);
 
-                Console.Clear();
-
                 while (true)
                 {
                     Console.WriteLine("Press 1 to search book");
@@ -77,6 +70,7 @@
                     var book = this.bookService.GetByTitle(userBook!);
                 }
 
+                Console.Clear();
             }
             catch (Exception ex)
             {

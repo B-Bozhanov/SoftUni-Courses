@@ -4,14 +4,16 @@ using BookStory.Data.Data;
 using BookStory.Services;
 using BookStory.UI.ConsoleUI;
 
+
 IRepository repository = new Repository();
 repository.Migration();
 IBookService bookService = new BookService(repository);
 IAccountService accountService = new AccountService(repository);
 
-var ui = new ConsoleUI(accountService, bookService);
+var consoleUI = new ConsoleUI(accountService, bookService);
 
-ui.Start();
+consoleUI.Start();
+
 /*
 /CreateAccount => View("CreateAccount")
 First name = ...
