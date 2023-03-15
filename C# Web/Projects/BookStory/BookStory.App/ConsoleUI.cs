@@ -1,5 +1,8 @@
-﻿namespace BookStory.App
+﻿namespace BookStory.UI.ConsoleUI
 {
+    using System.Reflection;
+
+    using BookStory.Controlers;
     using BookStory.Data.Data;
     using BookStory.Services;
 
@@ -47,11 +50,17 @@
 
         private async Task Login()
         {
-            Console.WriteLine("Enter your username!");
+
+            var controler = new HomeControler();
+
+            var userLoginresponse = controler.Login();
+
+            Console.WriteLine(userLoginresponse.Result[0]);
             var username = Console.ReadLine();
 
-            Console.WriteLine("Enter your password");
+            Console.WriteLine(userLoginresponse.Result[1]);
             var password = Console.ReadLine();
+
             var encryptedPassword = this.accountService.EncryptPassword(password!);
 
             try

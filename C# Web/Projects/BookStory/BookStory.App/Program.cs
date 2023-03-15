@@ -1,8 +1,8 @@
 ﻿//TODO: Validation on everything!
 
-using BookStory.App;
 using BookStory.Data.Data;
 using BookStory.Services;
+using BookStory.UI.ConsoleUI;
 
 IRepository repository = new Repository();
 repository.Migration();
