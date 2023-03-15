@@ -1,16 +1,18 @@
 ﻿//TODO: Validation on everything!
 
+using BookStoreMvcApp;
+
 using BookStory.Data.Data;
 using BookStory.Services;
-using BookStory.UI.ConsoleUI;
 
 
 IRepository repository = new Repository();
 repository.Migration();
 IBookService bookService = new BookService(repository);
 IAccountService accountService = new AccountService(repository);
+ITextService textService = new TextService();
 
-var consoleUI = new ConsoleUI(accountService, bookService);
+var consoleUI = new ConsoleUI(accountService, bookService, textService);
 
 consoleUI.Start();
 

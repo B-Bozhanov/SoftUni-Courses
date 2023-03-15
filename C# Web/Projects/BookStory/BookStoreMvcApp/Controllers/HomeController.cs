@@ -1,14 +1,17 @@
-﻿using System.IO;
-
-using BookStory.MvcFramework;
-
-namespace BookStoreMvcApp.Controllers
+﻿namespace BookStoreMvcApp.Controllers
 {
+    using BookStory.MvcFramework;
+
     public class HomeController : Controller
     {
         public string Index()
         {
-            return this.View("Views/Index.txt");
+            return this.View();
+        }
+
+        public string Login()
+        {
+            return this.View();
         }
     }
 }

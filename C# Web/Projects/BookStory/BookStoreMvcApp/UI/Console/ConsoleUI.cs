@@ -1,26 +1,37 @@
-﻿namespace BookStory.ConsoleUI
+﻿namespace BookStoreMvcApp
 {
+    using System.Text;
+
+    using BookStoreMvcApp.Controllers;
+
     using BookStory.Services;
+    using BookStory.Services.TextDto;
 
     public class ConsoleUI
     {
         private readonly IAccountService accountService;
         private readonly IBookService bookService;
+        private readonly ITextService textService;
 
-        public ConsoleUI(IAccountService accountService, IBookService bookService)
+        public ConsoleUI(IAccountService accountService, IBookService bookService, ITextService textService)
         {
             this.accountService = accountService;
             this.bookService = bookService;
+            this.textService = textService;
         }
 
         public void Start()
         {
+            var homePageJson = new HomeController().Index();
+
+            var jsonTextModels = this.textService.Deserialize(homePageJson);
+
             while (true)
             {
-                Console.WriteLine($"Press 1 to Login");
-                Console.WriteLine($"Press 2 to create new account");
-                Console.WriteLine("Press 0 to exit !");
+                this.PrintCollection(jsonTextModels);
+
                 var input = int.Parse(Console.ReadLine()!);
+
                 Console.Clear();
 
                 if (input == 0)
@@ -38,22 +49,23 @@
         {
             switch (input)
             {
-                case 1: this.Login(); break;
-                case 2: this.AccountCreate(); break;
+                case 2: this.Login(); break;
+                case 3: this.AccountCreate(); break;
             }
         }
 
         private void Login()
         {
+            var loginPageJson = new HomeController().Login();
 
-           // var controler = new HomeControler();
+            var exportJsonModel = this.textService.Deserialize(loginPageJson);
 
-           // var userLoginresponse = controler.Login();
+            this.PrintCollection(exportJsonModel);
 
-           // Console.WriteLine(userLoginresponse.Result[0]);
+            // Console.WriteLine(userLoginresponse.Result[0]);
             var username = Console.ReadLine();
 
-          //  Console.WriteLine(userLoginresponse.Result[1]);
+            //  Console.WriteLine(userLoginresponse.Result[1]);
             var password = Console.ReadLine();
 
             var encryptedPassword = this.accountService.EncryptPassword(password!);
@@ -125,6 +137,21 @@
 
                 Thread.Sleep(5000);
                 Console.Clear();
+            }
+        }
+
+        private void PrintCollection(IEnumerable<ExportTexModel> collection)
+        {
+            foreach (var item in collection)
+            {
+                if (item.Id == null)
+                {
+                    Console.WriteLine($"{item.Action} {item.Message}");
+                }
+                else
+                {
+                    Console.WriteLine($"{item.Action} {item.Id} {item.Message}");
+                }
             }
         }
     }

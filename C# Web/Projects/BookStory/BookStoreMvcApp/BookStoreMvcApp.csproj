@@ -8,13 +8,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookStory.ConsoleUI\BookStory.ConsoleUI.csproj" />
     <ProjectReference Include="..\BookStory.Data\BookStory.Data.csproj" />
+    <ProjectReference Include="..\BookStory.MvcFramework\BookStory.MvcFramework.csproj" />
     <ProjectReference Include="..\BookStory.Services\BookStory.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Views\Index.txt">
+    <Folder Include="UI\Web\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Views\Home\Login.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Views\Home\Index.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
